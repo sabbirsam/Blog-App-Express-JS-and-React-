@@ -53,15 +53,6 @@ const router = createBrowserRouter([
     element: <Register/>,
   },
 
-  // {
-  //   path: "/Single",
-  //   element: <Single/>,
-  // },
-  // {
-  //   path: "/Write",
-  //   element: <Write/>,
-  // },
-
 ]);
 
 function App() {
