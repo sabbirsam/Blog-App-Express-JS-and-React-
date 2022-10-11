@@ -1,0 +1,15 @@
+ // npm init -y
+//  then install all server 
+// npm install express mysql nodemon+
+
+// add below in package.json 
+
+// "type":"module",
+// "scripts": {
+//   "start": "nodemon index.js"
+// },
+
+ npm install bcryptjs 
+
+ npm install axios
+
