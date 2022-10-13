@@ -1,29 +1,66 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Menu from "../components/Menu";
-import {Link} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import Edit from "../img/edit.png"
 import Delete from "../img/delete.png"
+import axios from 'axios';
+import moment from "moment";
+import { useContext } from 'react';
+import {AuthContext} from "../context/authContext"
 
 function Single() {
+  const [post, setPost] = useState({}) //take empty array on the usestate
+  // const location = useLocation();
+  const location = useLocation() //here we need ID so use split 
+  const postId = location.pathname.split("/")[2] //  / use kore split with array 2 index
+  // console.log(location) // use search from the location
+  //to categories set 
+  const {currentUser} = useContext(AuthContext)
+  
+
+  // current user 
+  // now useEffect 
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      try{
+        // const res = await axios.get("/posts") //endpoint is post as we're searching in all posts
+        const res = await axios.get(`/posts/${postId}`); //fix here
+        //If all ok then getpost id by splict the url
+        setPost(res.data)
+
+      }catch(err){
+        console.log(err)
+      }
+    };
+    fetchData(); //call here the fetch function
+  },[postId]) // here cat use while we change cat It call the function again and again
+
   return (
     <div className='single'>
       <div className="content">
-          <img src="https://images.pexels.com/photos/13771245/pexels-photo-13771245.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
+          <img src={post?.img} alt="" />
           <div className="user">
-            <img src="https://images.pexels.com/photos/13461809/pexels-photo-13461809.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" />
+            {post.userImg && <img
+            src={post.userImg}
+            alt=""/>}
             <div className="info">
-              <span>John Doe</span>
-              <p>Posted 2 days ago</p>
+              <span>{post?.username}</span>
+              {/* <span>username</span> */}
+              <p>Posted {moment(post.date).fromNow()}</p>
             </div>
-            <div className="edit">
+            
+           {currentUser?.username === post.username && <div className="edit">
+           {/* <div className="edit"> */}
              <Link to={`/write?edit=2`}>
              <img src={Edit} alt="" />
              </Link>
              <img src={Delete} alt="" />
-            </div>
+            {/* </div> */}
+            </div>}
+            
           </div>
-          <h1>Lorem ipsum dolor sit amet.</h1>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nesciunt assumenda eum ullam nihil soluta et? Eos asperiores officia distinctio laborum perspiciatis dolorum animi obcaecati aperiam earum laboriosam, perferendis reprehenderit omnis, iusto sequi, repellendus quod ducimus aut odio! Reiciendis qui laborum asperiores exercitationem, consequatur placeat pariatur voluptas facere dignissimos natus quas, nostrum quis excepturi maiores dolores ab porro praesentium incidunt veritatis soluta commodi! Quis delectus pariatur nostrum itaque commodi, ex ab dolor, ea neque molestiae minima nulla omnis quia iure repellendus odit? Error, tenetur natus! Vitae, earum dolore distinctio, nihil adipisci laudantium porro id aliquid fugit explicabo officiis alias. Totam, suscipit.</p>
+          <h1>{post.title}</h1>
+          {post.desc}
       </div>
       <Menu/>
     </div>
