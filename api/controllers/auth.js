@@ -2,6 +2,11 @@ import {db} from "../db.js";
 import bcrypt from "bcryptjs";
 import Jwt from "jsonwebtoken";
 
+/**
+ * 
+ * @param {Register} req 
+ * @param {*} res 
+ */
 export const register = (req, res)=>{
     // res.json("This is from auth controllers") //
 
@@ -34,6 +39,11 @@ export const register = (req, res)=>{
         })
     })
 };
+
+
+/**
+ * Login
+ */
 export const login = (req, res)=>{
    const q = "SELECT * FROM users WHERE username = ? ";
    db.query(q,  [req.body.username], (err,data)=>{
@@ -57,6 +67,15 @@ export const login = (req, res)=>{
    })
 };
 
-export const logout = (req, res)=>{
-   
-};
+
+/**
+ * 
+ * @param {Logout} req 
+ * @param {*} res 
+ */
+ export const logout = (req, res) => {
+    res.clearCookie("access_token",{
+      sameSite:"none",
+      secure:true
+    }).status(200).json("User has been logged out.")
+  };

@@ -1,14 +1,14 @@
 import  express from "express";
-import  {addPost} from "../controllers/post.js";
+import  {addPost, deletePost, getPost, getPosts, updatePost} from "../controllers/post.js";
 
 const router = express();
 
-// routes created here and call on index.js
-// router.get("/test", (req,res)=>{
-//     // res.json("This is Post"); seperate all the operation from here to controllers folder
+router.get("/", getPosts )
+router.get("/:id", getPost )
+router.post("/", addPost )
+router.delete("/:id", deletePost )
+router.put("/:id", updatePost )
+//Now move to controller 
 
-// })
-
-router.get("/test",addPost); //this one belongs to controllers post.js
 
 export default router
