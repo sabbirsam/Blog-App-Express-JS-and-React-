@@ -66,7 +66,7 @@ const Write = () => {
         <div className="item">
           <h1>Publish</h1>
           <span>
-            <b>Status:</b>Draft
+            <b>Status:</b>DRAFT
           </span>
           <span>
             <b>Visibility:</b>Public
