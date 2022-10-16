@@ -1,39 +1,60 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
-function Menu() {
-    const posts = [
-        {
-          id: 1,
-          title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-          desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
-          img: "https://images.pexels.com/photos/7008010/pexels-photo-7008010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-        },
-        {
-          id: 2,
-          title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-          desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
-          img: "https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-        },
-        {
-          id: 3,
-          title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-          desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
-          img: "https://images.pexels.com/photos/4230630/pexels-photo-4230630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-        },
-        {
-          id: 4,
-          title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-          desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
-          img: "https://images.pexels.com/photos/6157049/pexels-photo-6157049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-        },
-      ];
+function Menu({cat}) {
+    const [posts, setPosts] = useState([]) //take empty array on the usestate
+
+  // now useEffect 
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      try{
+        // const res = await axios.get("/posts") //endpoint is post as we're searching in all posts
+        const res = await axios.get(`/posts/?cat=${cat}`) //fix here
+        //If all ok then setpost here
+        setPosts(res.data)
+
+      }catch(err){
+        console.log(err)
+      }
+    };
+    fetchData(); //call here the fetch function
+  },[cat])
+
+
+    // const posts = [
+    //     {
+    //       id: 1,
+    //       title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
+    //       desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
+    //       img: "https://images.pexels.com/photos/7008010/pexels-photo-7008010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    //     },
+    //     {
+    //       id: 2,
+    //       title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
+    //       desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
+    //       img: "https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    //     },
+    //     {
+    //       id: 3,
+    //       title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
+    //       desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
+    //       img: "https://images.pexels.com/photos/4230630/pexels-photo-4230630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    //     },
+    //     {
+    //       id: 4,
+    //       title: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
+    //       desc: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. A possimus excepturi aliquid nihil cumque ipsam facere aperiam at! Ea dolorem ratione sit debitis deserunt repellendus numquam ab vel perspiciatis corporis!",
+    //       img: "https://images.pexels.com/photos/6157049/pexels-photo-6157049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    //     },
+    //   ];
 
   return (
     <div className='menu'>
       <h1>Other post you may like</h1>
       {posts.map(post=>(
         <div className="post" key={post.id}>
-            <img src={post.img} alt="" />
+            {/* <img src={post.img} alt="" /> */}
+            <img src={`../upload/${post.img}`} alt="" />
             <h2>{post.title}</h2>
             <button>Read More</button>
 
